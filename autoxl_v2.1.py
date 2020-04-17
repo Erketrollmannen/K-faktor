@@ -5,11 +5,8 @@ version = "1.0.0"
 # -----[ import stuff ]-----
 import os
 import openpyxl as xl
-# Make list of excel files
 
-# -----[ global stuff ]-----
 
-# -----[ Choose destination ]-----
 
 print(" -----[ K-Faktor festival ]-----")
 print(" 1. MSA, Johan Sverdrup\n 2. MSB, Johan Sverdrup\n 3. MSA. Troll Blend\n 4. MSB,  Troll Blend") 
@@ -18,29 +15,9 @@ print(" 1. MSA, Johan Sverdrup\n 2. MSB, Johan Sverdrup\n 3. MSA. Troll Blend\n 
 invalid = True
 orgfolders = ['G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSA JS.xlsx', 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSB JS.xlsx', 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSB JS.xlsx', 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer Trblend\\MSB TrBlend.xlsx'] 
 innfolders = ['F:\\MT\\Kfaktorlogg\\MSA_1\\', 'F:\\MT\\Kfaktorlogg\\MSB_1\\', 'F:\MT\Kfaktorlogg\MSA_14\\', 'F:\MT\Kfaktorlogg\MSB_14\\']
-"""
-while invalid:
-    if inn == 1:
-        orgFile = 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSA JS.xlsx'
-        innfolder = 'F:\\MT\\Kfaktorlogg\\MSA_1\\'
-        invalid = False
-    elif inn == 2: 
-        orgFile = 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSB JS.xlsx'
-        innfolder = 'F:\\MT\\Kfaktorlogg\\MSB_1\\'
-        invalid = False
-    elif inn == 3: 
-        orgFile = 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer Trblend\\MSA TrBlend.xlsx'
-        innfolder = 'F:\MT\Kfaktorlogg\MSA_14\\'
-        invalid = False
-    elif inn == 4: 
-        orgFile = 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer Trblend\\MSB TrBlend.xlsx'
-        innfolder = 'F:\MT\Kfaktorlogg\MSB_14\\'
-        invalid = False
-    
-    else: 
-        print("Beklager, Feite fingre, PRØV IGJEN :)")
-"""        
+
 #print(orgFile)
+# Make list of excel files
 runs = 0
 print(len(orgfolders))
 print(len(innfolders))
@@ -183,19 +160,7 @@ for orgFile in orgfolders:
     runs += 1
     print()
     print(runs)
-    print()         
-                   
-                
-
-        
-
-        
-        
-
-
-
-
-            
+    print()        
 
     #mergedCell = findMerged("MSA_linje 3_1.xlsx", 6)
 
