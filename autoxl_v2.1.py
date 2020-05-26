@@ -13,7 +13,11 @@ print(" 1. MSA, Johan Sverdrup\n 2. MSB, Johan Sverdrup\n 3. MSA. Troll Blend\n 
 
 #inn = int(input())
 invalid = True
-orgfolders = ['G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSA JS.xlsx', 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSB JS.xlsx', 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSB JS.xlsx', 'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer Trblend\\MSB TrBlend.xlsx'] 
+orgfolders = ['G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSA JS.xlsx',
+              'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer JS\\MSB JS.xlsx',
+              'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer Trblend\\MSA TrBlend.xlsx',
+              'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer Trblend\\MSB TrBlend.xlsx']
+
 innfolders = ['F:\\MT\\Kfaktorlogg\\MSA_1\\', 'F:\\MT\\Kfaktorlogg\\MSB_1\\', 'F:\MT\Kfaktorlogg\MSA_14\\', 'F:\MT\Kfaktorlogg\MSB_14\\']
 
 #print(orgFile)
@@ -23,6 +27,10 @@ print(len(orgfolders))
 print(len(innfolders))
 for orgFile in orgfolders:
     innfolder = innfolders[runs]
+    print()
+    print("-----[Working on folder]-----")
+    print(orgFile)
+    print()
     
     files = []
 
@@ -90,13 +98,10 @@ for orgFile in orgfolders:
             
             
         
-        print(values)
+        #print(values)
 
     # -----[ Find correct sheet ]-----
-
-
-
-
+    
         #sheetIndex = file.split(" ")[1][0]
         
         temp = file.split(" ")[1]
@@ -114,13 +119,11 @@ for orgFile in orgfolders:
             
             fromRow += 1
             value = mainSheet["A" + str(fromRow)].value
-            print(value)
+            #print(value)
             if value == None or value == "None":
                 emptyCell = fromRow
                 empty = True
                 break 
-                
-            
 
         print("empty cell: " + str(emptyCell))
 
@@ -130,7 +133,7 @@ for orgFile in orgfolders:
             cell = mainSheet["A" + str(d)].value
             dates.append(cell)
 
-        print(dates)
+        #print(dates)
 
 
         fromRowMain = emptyCell - 1
@@ -146,7 +149,7 @@ for orgFile in orgfolders:
             if values[k][0] in dates:
                 continue
             else:
-                print(data)
+                #print(data)
                 for h in data:
                     
                     mainSheet.cell(row=int(fromRowMain), column = y).value = h
@@ -159,7 +162,7 @@ for orgFile in orgfolders:
     mainwb.save('F:\MT\Kfaktorlogg\out\\' + str(nyttFilnavn))
     runs += 1
     print()
-    print(runs)
+    print("Runs" + str(runs))
     print()        
 
     #mergedCell = findMerged("MSA_linje 3_1.xlsx", 6)
