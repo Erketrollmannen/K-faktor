@@ -25,7 +25,7 @@ Når autoxl flytter data sjekker den om datoen allerede eksisterer i Excelarket 
 
 Dei nye "oppdaterte" excelarkene blir putta i mappa "out". Dei må manuellt flyttes herfrå til G-disk. Kan være lurt å ta ein manuall spotsjekk av generert excel ark. 
 
-## Bibloter ibruk.
+## Biblioteker i bruk.
 
 ### PDFminer
 
