@@ -17,8 +17,15 @@ import io
 import shutil
 import re
 
+f = open("rundir.txt", "r")
 
+directory = f.readline()
 
+print("directory: " + directory)
+
+#print(directory)
+
+os.chdir(directory)
 
 # -----[ Global Variables ]-----
 folders = ["MSA_1", "MSA_14", "MSB_1", "MSB_14", "0"]
