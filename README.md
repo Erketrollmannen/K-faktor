@@ -15,7 +15,7 @@ pdfSortV2 sorterer PDFen ut frå målestasjon, måleløp og oljetype. Den oppret
 - MSB\_1
 - MSB\_14
 
-pdfSortV2 ser etter PDFer i den mappa det blir kjørt frå. 
+pdfSortV2 ser etter PDFer i mappen som er spesifisert i rundir.txt filen. feks: F:\\Scripts\\Kfaktorlogg
 
 ### Flytting og tallknusing.
 
