@@ -20,7 +20,7 @@ husk dobbel backslash i pathen (gjelder kun for windows).
 
 ### Flytting og tallknusing.
 
-Før autoxl kan kjøres må man semi manuellt lage excel ark frå PDFene. Dette gjeres i Adobe Acrobat. Autoxl ser etter "Merget" celle. Den dataden du vil ha med må skilles av med å merge celler. 
+Før autoxl kan kjøres må man semi manuelt lage excel ark frå PDFene. Dette gjeres i Adobe Acrobat. Autoxl ser etter "Merget" celle. Den dataen du vil ha med må skilles av med å merge celler. 
 
 Når autoxl flytter data sjekker den om datoen allerede eksisterer i Excelarket det sender dataen til. Dersom dataen allerede eksisterer hoppes den over. 
 
