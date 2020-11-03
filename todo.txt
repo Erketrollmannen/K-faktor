@@ -1,0 +1,2 @@
+Endre slik at man konvertere pdf til excel hvor man lager ny worksheet for hver side.
+Legge til støtte for behandling i nye formatet, søker etter første tomme cellen, starter alltid på rad 6.

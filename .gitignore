@@ -1,1 +1,6 @@
 thumbs.db
+changelog.txt
+*.csv
+*.pdf
+*.xlsx
+*.tsv
