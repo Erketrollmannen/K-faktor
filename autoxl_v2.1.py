@@ -76,7 +76,7 @@ for orgFile in orgfolders:
         # -----[ make dict ]-----
         count = 0
         values = {}
-        for v in range (6, fromCollumn):
+        for v in range (4, fromCollumn):
             rowValues = []
             for i in range(1, 16):
                 
