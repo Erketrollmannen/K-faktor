@@ -18,7 +18,7 @@ orgfolders = ['G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje
               'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer Trblend\\MSA TrBlend.xlsx',
               'G:\\R\\RAF_SM_FAG-DATA\\AUTOMASJ\\KALIBRERING\\3 - Trend\\Råolje målestasjon\\K-faktorer Trblend\\MSB TrBlend.xlsx']
 
-innfolders = ['F:\\MT\\Kfaktorlogg\\MSA_1\\', 'F:\\MT\\Kfaktorlogg\\MSB_1\\', 'F:\MT\Kfaktorlogg\MSA_14\\', 'F:\MT\Kfaktorlogg\MSB_14\\']
+innfolders = ['F:\\Scripts\\Kfaktorlogg\\MSA_1\\', 'F:\\Scripts\\Kfaktorlogg\\MSB_1\\', 'F:\\Scripts\\Kfaktorlogg\\MSA_14\\', 'F:\\Scripts\\Kfaktorlogg\\MSB_14\\']
 
 #print(orgFile)
 # Make list of excel files
@@ -56,7 +56,7 @@ for orgFile in orgfolders:
         wb = xl.load_workbook(innfolder + file)
         sheet = wb.worksheets[0]
 
-        fromCollumn = 6
+        fromCollumn = 3
         while not merged:
             value = sheet.cell(row = fromCollumn, column = 3)
             
@@ -159,7 +159,7 @@ for orgFile in orgfolders:
     splittFilnavn = orgFile.split("\\")
     nyttFilnavn = splittFilnavn[8]
     print(nyttFilnavn)                
-    mainwb.save('F:\MT\Kfaktorlogg\out\\' + str(nyttFilnavn))
+    mainwb.save('F:\\Scripts\\Kfaktorlogg\\out\\' + str(nyttFilnavn))
     runs += 1
     print()
     print("Runs" + str(runs))
