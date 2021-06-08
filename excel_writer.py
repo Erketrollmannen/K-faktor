@@ -90,8 +90,7 @@ def data_to_excel():
                     sheet.cell(row=row, column=col).value = data[col-1]
                 data = list()
                 row += 1
-        print(wb)
-        input()
+                
         wb.save(f"{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
         
 if __name__ == "__main__":
