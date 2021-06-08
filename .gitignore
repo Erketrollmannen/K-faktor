@@ -1,5 +1,6 @@
 thumbs.db
 changelog.txt
+__pycache__
 *.csv
 *.pdf
 *.xlsx
