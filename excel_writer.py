@@ -1,7 +1,12 @@
 import os
-import openpyxl as xl
 from config import folders
 from datetime import date
+try: 
+    import openpyxl as xl
+except ModuleNotFoundError:
+    print("pip install --user openpyxl")
+    os._exit()
+
 
 def find_csvfiles():
     csv_files = dict() # {folder: [files]}

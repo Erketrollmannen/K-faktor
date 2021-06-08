@@ -4,7 +4,6 @@ import re
 import shutil
 from config import folders
 
-from pdfminer import converter
 # Install imports
 try:
     import pdfminer
@@ -14,11 +13,13 @@ try:
     from pdfminer.pdfpage import PDFPage
 except ModuleNotFoundError:
     print("pip install --user pdfminer")
+    os._exit()
     
 try:
     import tabula
 except ModuleNotFoundError:
     print("pip install --user tabula-py")
+    os._exit()
 
 # Globals
 regex_station = re.compile(r"(MSA|MSB)")
