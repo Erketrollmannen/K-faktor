@@ -106,5 +106,6 @@ def convert_pdffiles_to_csv():
 
 
 if __name__ == "__main__":
+       print("Yeet")
        rename_and_move_files() 
        convert_pdffiles_to_csv()

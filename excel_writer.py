@@ -3,6 +3,7 @@ from config import folders
 from datetime import date
 try: 
     import openpyxl as xl
+    from openpyxl.worksheet.table import Table, TableStyleInfo
 except ModuleNotFoundError:
     print("pip install --user openpyxl")
     os._exit()
@@ -45,6 +46,13 @@ def get_sheet_by_name(wb, line, station, oil_type):
                 return i
     raise Exception(f"Fant ikkje passande worksheet, løp: {line}, på {station}, oljetype {oil_type}")
 
+def create_plot(sheet, station, line):
+    plot = LineChart()
+    plot.tilte = f"{station} {sheet.title}"
+    data = Reference(sheet, min_col=7, max_col=10, min_row=1, max_row=10)
+    plot.add_data(data)
+        
+
 def data_to_excel():
     workbooks = {"MSA_1": "MSA JS_template.xlsx", "MSB_1": "MSB JS_template.xlsx", "MSA_14": "MSA TrBlend_template.xlsx", "MSB_14": "MSB TrBlend_template.xlsx"}
     csv_files = find_csvfiles()
@@ -53,6 +61,7 @@ def data_to_excel():
         wb = xl.load_workbook(workbooks[key])
         print(f"Working on {key}\n")
         for file in csv_files[key]:
+            plt_data = list()
             lines = read_csv_file(f"./{key}/{file}") 
             tmp = file.split("_")
             try:
@@ -61,17 +70,17 @@ def data_to_excel():
                 oiltype = tmp[2].split(".")[0]
             except IndexError:
                 continue
-            print(file)
 
             sheet = get_sheet_by_name(wb, line, station, oiltype)
-            print(sheet)
-            row = find_wb_start(sheet)
+            start = find_wb_start(sheet)
+            row = start
             for line in reversed(lines):
                 line.strip()
                 tmp = line.split(",")
                 if len(tmp) != 11:
                     continue
                 data = list()
+                
                 data.append(tmp[0])
                 try:
                     data.append(int(tmp[1]))
@@ -88,9 +97,15 @@ def data_to_excel():
                     continue
                 for col in range(1, 12):
                     sheet.cell(row=row, column=col).value = data[col-1]
+
+                plt_data.append([data[0], data[1]])
                 data = list()
                 row += 1
-                
+
+            print("Updating Table")
+            table_ref = list(sheet.tables.values())[0]
+            table_ref.ref = f"A{start-1}:K{row-1}"
+            
         wb.save(f"{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
         
 if __name__ == "__main__":
