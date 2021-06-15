@@ -97,7 +97,10 @@ def data_to_excel():
                 row += 1
 
             print("Updating Table")
-            table_ref = list(sheet.tables.values())[0]
+            try:
+                table_ref = list(sheet.tables.values())[0]
+            except IndexError:
+                continue
             table_ref.ref = f"A{start-1}:K{row-1}"
             
         wb.save(f"{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
