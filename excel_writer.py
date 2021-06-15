@@ -46,12 +46,6 @@ def get_sheet_by_name(wb, line, station, oil_type):
                 return i
     raise Exception(f"Fant ikkje passande worksheet, løp: {line}, på {station}, oljetype {oil_type}")
 
-def create_plot(sheet, station, line):
-    plot = LineChart()
-    plot.tilte = f"{station} {sheet.title}"
-    data = Reference(sheet, min_col=7, max_col=10, min_row=1, max_row=10)
-    plot.add_data(data)
-        
 
 def data_to_excel():
     workbooks = {"MSA_1": "MSA JS_template.xlsx", "MSB_1": "MSB JS_template.xlsx", "MSA_14": "MSA TrBlend_template.xlsx", "MSB_14": "MSB TrBlend_template.xlsx"}
