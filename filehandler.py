@@ -2,7 +2,7 @@ import os
 import io
 import re
 import shutil
-from config import folders
+from global_vars import folders, settings
 
 # Install imports
 try:
@@ -35,7 +35,7 @@ def make_folders():
 
 def find_pdffiles():
     pdffiles = list()
-    for file in os.listdir("./data"):
+    for file in os.listdir(settings["data_folder"]):
         if file.endswith(".pdf"):
             pdffiles.append(file)
     return pdffiles
@@ -91,12 +91,12 @@ def rename_and_move_files():
     pdffiles = find_pdffiles()
     for file in pdffiles:
         try:
-            text = extract_text(f"./data/{file}")
+            text = extract_text(f"{settings['data_folder']}/{file}")
         except pdfminer.pdfparser.PDFSyntaxError:
             print(f"EOF error in file: {file}\nFile will be removed")
-            os.remove(f"./data/{file}")
+            os.remove(f"{settings['data_folder']}/{file}")
             continue
-        rename_files(f"./data/{file}", text)
+        rename_files(f"{settings['data_folder']}/{file}", text)
 
 def convert_pdffiles_to_csv():
     print("Converting pdf files to csv...")

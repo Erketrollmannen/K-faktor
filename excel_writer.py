@@ -1,5 +1,5 @@
 import os
-from config import folders
+from global_vars import folders
 from datetime import date
 try: 
     import openpyxl as xl
