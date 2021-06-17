@@ -34,7 +34,7 @@ class Gui:
         self.title = tk.Label(self.main, text="K-faktor script", font=("Helvetica", 20))
         self.filebutton = tk.Button(self.main, text="Choose folder", command=self.prompt_file)
         self.startbutton = tk.Button(self.main, text="Start", command=self.start_thread, width=25, height=4, font=("Helvetica", 16))
-        self.save_button = tk.Button(self.main, text="Save data foleder", command=self.save_data_folder)
+        self.save_button = tk.Button(self.main, text="Save data folder", command=self.save_data_folder)
         self.disp_folder_var = tk.Label(self.main, textvariable=self.folder, font=("Helvetica", 14))
         self.progress = ttk.Progressbar(self.main, orient=tk.HORIZONTAL, length=200, mode="determinate")
         self.progress["value"] = 0
