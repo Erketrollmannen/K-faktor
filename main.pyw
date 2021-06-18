@@ -2,7 +2,7 @@
 import excel_writer
 import filehandler
 import tkinter as tk
-from tkinter import PhotoImage, filedialog
+from tkinter import filedialog
 from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image, ImageTk
