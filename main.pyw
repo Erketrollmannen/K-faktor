@@ -48,7 +48,7 @@ class Gui:
         self.disp_folder_var.pack(in_=self.top, pady=(15,15))
         self.save_button.pack(in_=self.top, pady= (10,10))
         self.vim_label.pack(in_=self.top)
-        self.startbutton.pack(in_=self.bottom, pady=(20,10))
+        self.startbutton.pack(in_=self.bottom, pady=(10,10))
         self.progress_label.pack(in_=self.bottom, pady=(10,10))
         self.progress.pack(in_=self.bottom, pady=(10,10))
         
@@ -75,7 +75,7 @@ class Gui:
         self.progress["value"] = 25
         self.progress_str.set("Renaming and moving files...")
         self.main.update_idletasks()
-        filehandler.rename_and_move_files()
+        filehandler.rename_and_move_files(global_vars.settings)
         self.progress["value"] = 50
         self.progress_str.set("Converting PDF files to CSV files...")
         self.main.update_idletasks()
@@ -99,6 +99,8 @@ def parse_config():
                 global_vars.settings["data_folder"] = os.getcwd().replace("\\", "/") + "/data"
     else:
         global_vars.settings["data_folder"] = f"{os.getcwd()}/data".replace('\\', '/')
+    
+    print(global_vars.settings)
 
 def save_config():
     with open("./config.json","w") as f:
@@ -109,7 +111,7 @@ if __name__ == "__main__":
     os.chdir(sys.path[0])
     parse_config() 
     if "PROMPT" in os.environ:
-        filehandler.rename_and_move_files()
+        filehandler.rename_and_move_files(global_vars.settings)
         filehandler.convert_pdffiles_to_csv()
         excel_writer.data_to_excel()
     else:
