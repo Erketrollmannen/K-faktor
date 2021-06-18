@@ -1,3 +1,4 @@
+#! c:\Python
 import excel_writer
 import filehandler
 import tkinter as tk
@@ -7,6 +8,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import json
 import os
+import sys
 import threading
 import global_vars
 
@@ -18,7 +20,7 @@ class Gui:
         self.main.title("K-faktor script")
         self.main.geometry("800x800")
         self.folder = tk.StringVar()
-        self.folder.set(f"Current folder:   {global_vars.settings['default_folder']}")
+        self.folder.set(f"Current folder:   {global_vars.settings['data_folder']}")
         self.progress_str = tk.StringVar()
         self.top = tk.Frame(self.main)
         self.bottom = tk.Frame(self.main)
@@ -28,7 +30,7 @@ class Gui:
         tk.mainloop()
 
     def create_widgets(self):
-        self.vim_neger = Image.open("./img/vim.png")
+        self.vim_neger = Image.open(os.getcwd().replace("\\", "/") + "./img/vim.png")
         self.img = ImageTk.PhotoImage(self.vim_neger)
         self.vim_label = tk.Label(image=self.img)
         self.title = tk.Label(self.main, text="K-faktor script", font=("Helvetica", 20))
@@ -41,12 +43,12 @@ class Gui:
         self.progress_label = tk.Label(self.main, textvariable=self.progress_str)
 
         # Pack 
-        self.title.pack(in_=self.top, pady=(25,25))
+        self.title.pack(in_=self.top, pady=(15,15))
         self.filebutton.pack(in_=self.top)
         self.disp_folder_var.pack(in_=self.top, pady=(15,15))
         self.save_button.pack(in_=self.top, pady= (10,10))
         self.vim_label.pack(in_=self.top)
-        self.startbutton.pack(in_=self.bottom, pady=(50,50))
+        self.startbutton.pack(in_=self.bottom, pady=(20,10))
         self.progress_label.pack(in_=self.bottom, pady=(10,10))
         self.progress.pack(in_=self.bottom, pady=(10,10))
         
@@ -94,15 +96,17 @@ def parse_config():
             if "data_folder" in tmp:
                 global_vars.settings = tmp
             else:
-                global_vars.settings["default_folder"] = os.getcwd().replace("\\", "/") + "/data"
+                global_vars.settings["data_folder"] = os.getcwd().replace("\\", "/") + "/data"
     else:
-        global_vars.settings["default_folder"] = f"{os.getcwd()}/data".replace('\\', '/')
+        global_vars.settings["data_folder"] = f"{os.getcwd()}/data".replace('\\', '/')
 
 def save_config():
     with open("./config.json","w") as f:
         json.dump(global_vars.settings, f, indent=4)
 
 if __name__ == "__main__":
+    print(sys.path[0])
+    os.chdir(sys.path[0])
     parse_config() 
     if "PROMPT" in os.environ:
         filehandler.rename_and_move_files()
@@ -110,3 +114,4 @@ if __name__ == "__main__":
         excel_writer.data_to_excel()
     else:
         gui = Gui()
+     
