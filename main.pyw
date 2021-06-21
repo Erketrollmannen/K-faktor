@@ -1,4 +1,3 @@
-#! c:\Python
 import excel_writer
 import filehandler
 import tkinter as tk

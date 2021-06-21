@@ -2,7 +2,7 @@ import os
 import io
 import re
 import shutil
-from global_vars import folders, settings
+from global_vars import folders
 
 # Install imports
 try:
@@ -33,8 +33,9 @@ def make_folders():
     return folders
     
 
-def find_pdffiles():
+def find_pdffiles(settings):
     pdffiles = list()
+    print(settings)
     for file in os.listdir(settings["data_folder"]):
         if file.endswith(".pdf"):
             pdffiles.append(file)
@@ -86,9 +87,9 @@ def extract_text(path):
 
     return text
 
-def rename_and_move_files():
+def rename_and_move_files(settings):
     folders = make_folders()
-    pdffiles = find_pdffiles()
+    pdffiles = find_pdffiles(settings)
     for file in pdffiles:
         try:
             text = extract_text(f"{settings['data_folder']}/{file}")
@@ -107,5 +108,6 @@ def convert_pdffiles_to_csv():
 
 if __name__ == "__main__":
        print("Yeet")
+       settings = {"data_folder": "./data"}
        rename_and_move_files() 
        convert_pdffiles_to_csv()
