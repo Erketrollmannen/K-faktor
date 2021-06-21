@@ -47,7 +47,7 @@ def get_sheet_by_name(wb, line, station, oil_type):
     raise Exception(f"Fant ikkje passande worksheet, løp: {line}, på {station}, oljetype {oil_type}")
 
 
-def data_to_excel():
+def data_to_excel(settings):
     workbooks = {"MSA_1": "MSA JS_template.xlsx", "MSB_1": "MSB JS_template.xlsx", "MSA_14": "MSA TrBlend_template.xlsx", "MSB_14": "MSB TrBlend_template.xlsx"}
     csv_files = find_csvfiles()
     
@@ -103,7 +103,7 @@ def data_to_excel():
                 continue
             table_ref.ref = f"A{start-1}:K{row-1}"
             
-        wb.save(f"{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
+        wb.save(f"{settings['out_folder']}{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
         
-if __name__ == "__main__":
-    data_to_excel()
+# if __name__ == "__main__":
+#     data_to_excel()

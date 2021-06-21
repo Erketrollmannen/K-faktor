@@ -26,10 +26,10 @@ regex_station = re.compile(r"(MSA|MSB)")
 regex_line = re.compile("linje " + r"[0-9]{1}[0-1]?")
 regex_type = re.compile(r"[0-9]{2}:[0-9]{2}" + "(14|1)")
 
-def make_folders():
+def make_folders(settings):
     for f in folders:
-        if not os.path.isdir(f):
-            os.mkdir(f)
+        if not os.path.isdir(f"{settings['out_folder']}/{f}"):
+            os.mkdir(f"{settings['out_folder']}/{f}")
     return folders
     
 
@@ -88,7 +88,7 @@ def extract_text(path):
     return text
 
 def rename_and_move_files(settings):
-    folders = make_folders()
+    folders = make_folders(settings)
     pdffiles = find_pdffiles(settings)
     for file in pdffiles:
         try:
@@ -99,15 +99,15 @@ def rename_and_move_files(settings):
             continue
         rename_files(f"{settings['data_folder']}/{file}", text)
 
-def convert_pdffiles_to_csv():
+def convert_pdffiles_to_csv(settings):
     print("Converting pdf files to csv...")
     for f in folders: 
-        tabula.convert_into_by_batch(f, output_format="csv", pages="all")
+        tabula.convert_into_by_batch(f"{settings['out_folder']}/{f}", output_format="csv", pages="all")
     print("pdf files converted to csv")
 
 
-if __name__ == "__main__":
-       print("Yeet")
-       settings = {"data_folder": "./data"}
-       rename_and_move_files() 
-       convert_pdffiles_to_csv()
+# if __name__ == "__main__":
+#        print("Yeet")
+#        settings = {"data_folder": "./data"}
+#        rename_and_move_files() 
+#        convert_pdffiles_to_csv()

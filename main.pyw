@@ -19,6 +19,8 @@ class Gui:
         self.main.title("K-faktor script")
         self.main.geometry("800x800")
         self.folder = tk.StringVar()
+        self.out_folder = tk.StringVar()
+        self.out_folder.set(f"Output directory:   {global_vars.settings['out_folder']}")
         self.folder.set(f"Current folder:   {global_vars.settings['data_folder']}")
         self.progress_str = tk.StringVar()
         self.top = tk.Frame(self.main)
@@ -33,32 +35,42 @@ class Gui:
         self.img = ImageTk.PhotoImage(self.vim_neger)
         self.vim_label = tk.Label(image=self.img)
         self.title = tk.Label(self.main, text="K-faktor script", font=("Helvetica", 20))
-        self.filebutton = tk.Button(self.main, text="Choose folder", command=self.prompt_file)
-        self.startbutton = tk.Button(self.main, text="Start", command=self.start_thread, width=25, height=4, font=("Helvetica", 16))
-        self.save_button = tk.Button(self.main, text="Save data folder", command=self.save_data_folder)
-        self.disp_folder_var = tk.Label(self.main, textvariable=self.folder, font=("Helvetica", 14))
+        self.filebutton = tk.Button(self.main, text="Choose data folder", command=self.prompt_data_folder)
+        self.startbutton = tk.Button(self.main, text="Start", command=self.start_thread, width=25, height=2, font=("Helvetica", 16))
+        self.save_button = tk.Button(self.main, text="Save settings", command=self.save_folder)
+        self.out_folder_button = tk.Button(self.main, text="Choose outfolder", command=self.prompt_out_folder)
+        self.disp_out_folder = tk.Label(self.main, textvariable=self.out_folder, font=("Helvetica", 13))
+        self.disp_folder_var = tk.Label(self.main, textvariable=self.folder, font=("Helvetica", 13))
         self.progress = ttk.Progressbar(self.main, orient=tk.HORIZONTAL, length=200, mode="determinate")
         self.progress["value"] = 0
         self.progress_label = tk.Label(self.main, textvariable=self.progress_str)
 
         # Pack 
-        self.title.pack(in_=self.top, pady=(15,15))
+        self.title.pack(in_=self.top, pady=(10,10))
         self.filebutton.pack(in_=self.top)
-        self.disp_folder_var.pack(in_=self.top, pady=(15,15))
-        self.save_button.pack(in_=self.top, pady= (10,10))
+        self.disp_folder_var.pack(in_=self.top, pady=(5,5))
+        self.out_folder_button.pack(in_=self.top)
+        self.disp_out_folder.pack(in_=self.top)
+        self.save_button.pack(in_=self.top, pady= (5,5))
         self.vim_label.pack(in_=self.top)
-        self.startbutton.pack(in_=self.bottom, pady=(10,10))
-        self.progress_label.pack(in_=self.bottom, pady=(10,10))
+        self.startbutton.pack(in_=self.bottom) #, pady=(10,10))
+        self.progress_label.pack(in_=self.bottom)#, pady=(10,10))
         self.progress.pack(in_=self.bottom, pady=(10,10))
         
-    def prompt_file(self):
+    def prompt_data_folder(self):
         if self.running:
             messagebox.showwarning("Warning", "Cannot change datafolder while process is runnig.")
         else:
             global_vars.settings["data_folder"] = filedialog.askdirectory().replace("\\", "/")
             self.folder.set(f"Data folder: {global_vars.settings['data_folder']}")
 
-    def save_data_folder(self):
+    def prompt_out_folder(self):
+        if self.running:
+            messagebox.showwarning("Warning", "Cannot change outfolder while process is runnig.")
+        else:
+            global_vars.settings["out_folder"] = filedialog.askdirectory().replace("\\", "/")
+            self.out_folder.set(f"Data folder: {global_vars.settings['out_folder']}")
+    def save_folder(self):
         save_config()
        
     def start_thread(self):
@@ -78,29 +90,33 @@ class Gui:
         self.progress["value"] = 50
         self.progress_str.set("Converting PDF files to CSV files...")
         self.main.update_idletasks()
-        filehandler.convert_pdffiles_to_csv()
+        filehandler.convert_pdffiles_to_csv(global_vars.settings)
         self.progress["value"] = 99
         self.progress_str.set("Moving data to excel...")
         self.main.update_idletasks()
-        excel_writer.data_to_excel()
+        excel_writer.data_to_excel(global_vars.settings)
         self.progress["value"] = 100
         self.progress_str.set("Done")
         self.main.update_idletasks()
         self.running = False
 
 def parse_config():
+    global_vars.settings = dict()
     if os.path.isfile("./config.json"):
         with open("./config.json", "r") as f:
             tmp = json.load(f)
             if "data_folder" in tmp:
-                global_vars.settings = tmp
+                global_vars.settings["data_folder"] = tmp["data_folder"]
             else:
                 global_vars.settings["data_folder"] = os.getcwd().replace("\\", "/") + "/data"
+            if "out_folder" in tmp:
+                global_vars.settings["out_folder"] = tmp["data_folder"]
+            else:
+                global_vars.settings["out_folder"] = os.getcwd().replace("\\", "/")
     else:
         global_vars.settings["data_folder"] = f"{os.getcwd()}/data".replace('\\', '/')
-    
-    print(global_vars.settings)
-
+        global_vars.settings["out_folder"] = os.getcwd().replace('\\', '/')
+        
 def save_config():
     with open("./config.json","w") as f:
         json.dump(global_vars.settings, f, indent=4)
@@ -111,8 +127,8 @@ if __name__ == "__main__":
     parse_config() 
     if "PROMPT" in os.environ:
         filehandler.rename_and_move_files(global_vars.settings)
-        filehandler.convert_pdffiles_to_csv()
-        excel_writer.data_to_excel()
+        filehandler.convert_pdffiles_to_csv(global_vars.settings)
+        excel_writer.data_to_excel(global_vars.settings)
     else:
         gui = Gui()
      
