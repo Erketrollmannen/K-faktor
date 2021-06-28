@@ -115,7 +115,7 @@ def parse_config():
             else:
                 global_vars.settings["data_folder"] = os.getcwd().replace("\\", "/") + "/data"
             if "out_folder" in tmp:
-                global_vars.settings["out_folder"] = tmp["data_folder"]
+                global_vars.settings["out_folder"] = tmp["out_folder"]
             else:
                 global_vars.settings["out_folder"] = os.getcwd().replace("\\", "/")
     else:
