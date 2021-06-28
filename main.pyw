@@ -4,12 +4,17 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 from tkinter import messagebox
-from PIL import Image, ImageTk
 import json
 import os
 import sys
 import threading
 import global_vars
+try:
+    from PIL import Image, ImageTk
+except ModuleNotFoundError:
+    print("pip3 install --user pillow")
+    os._exit(0)
+
 
 class Gui:
     def __init__(self):
