@@ -41,7 +41,7 @@ def find_pdffiles(settings):
             pdffiles.append(file)
     return pdffiles
 
-def rename_files(path, text):
+def rename_files(path, text, out_folder):
     try:
         station = re.findall(regex_station, text)[0]
 
@@ -64,7 +64,7 @@ def rename_files(path, text):
         print(f"Fant ingen oljetype, (oljetype 0) i fil {path}")
         return None
 
-    new_path = f"./{station}_{oil_type}/{station}_{line}_{oil_type}.pdf"
+    new_path = f"{out_folder}/{station}_{oil_type}/{station}_{line}_{oil_type}.pdf"
 
     try:
         shutil.move(path, new_path)
@@ -97,12 +97,12 @@ def rename_and_move_files(settings):
             print(f"EOF error in file: {file}\nFile will be removed")
             os.remove(f"{settings['data_folder']}/{file}")
             continue
-        rename_files(f"{settings['data_folder']}/{file}", text)
+        rename_files(f"{settings['data_folder']}/{file}", text, settings["out_folder"])
 
 def convert_pdffiles_to_csv(settings):
     print("Converting pdf files to csv...")
     for f in folders: 
-        tabula.convert_into_by_batch(f"{settings['out_folder']}/{f}", output_format="csv", pages="all")
+        tabula.convert_into_by_batch(f"{settings['out_folder']}/{f}", output_format="csv", pages="all", java_options=["-Djava.awt.headless=true"])
     print("pdf files converted to csv")
 
 

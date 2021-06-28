@@ -66,8 +66,10 @@ class Gui:
         if self.running:
             messagebox.showwarning("Warning", "Cannot change datafolder while process is runnig.")
         else:
-            global_vars.settings["data_folder"] = filedialog.askdirectory().replace("\\", "/")
-            self.folder.set(f"Data folder: {global_vars.settings['data_folder']}")
+            tmp = filedialog.askdirectory().replace("\\", "/")
+            if tmp != "":
+                global_vars.settings["data_folder"] =
+                self.folder.set(f"Data folder: {global_vars.settings['data_folder']}")
 
     def prompt_out_folder(self):
         if self.running:
@@ -109,7 +111,14 @@ def parse_config():
     global_vars.settings = dict()
     if os.path.isfile("./config.json"):
         with open("./config.json", "r") as f:
-            tmp = json.load(f)
+            try:
+                tmp = json.load(f)
+            except json.JSONDecodeError:
+                print("JSON decoding error, unable to read config file. Using default config...")
+                global_vars.settings["data_folder"] = f"{os.getcwd()}/data".replace('\\', '/')
+                global_vars.settings["out_folder"] = os.getcwd().replace('\\', '/')
+                return None
+
             if "data_folder" in tmp:
                 global_vars.settings["data_folder"] = tmp["data_folder"]
             else:

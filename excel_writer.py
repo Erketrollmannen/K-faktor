@@ -9,10 +9,11 @@ except ModuleNotFoundError:
     os._exit()
 
 
-def find_csvfiles():
+def find_csvfiles(out_folder):
     csv_files = dict() # {folder: [files]}
-    for folder in folders:
-        csv_files[folder] = [file for file in os.listdir(folder) if file.endswith(".csv")]
+    for key in folders:
+        folder = f"{out_folder}/{key}"
+        csv_files[key] = [file for file in os.listdir(folder) if file.endswith(".csv")]
     return csv_files
 
 def read_csv_file(file):
@@ -49,14 +50,15 @@ def get_sheet_by_name(wb, line, station, oil_type):
 
 def data_to_excel(settings):
     workbooks = {"MSA_1": "MSA JS_template.xlsx", "MSB_1": "MSB JS_template.xlsx", "MSA_14": "MSA TrBlend_template.xlsx", "MSB_14": "MSB TrBlend_template.xlsx"}
-    csv_files = find_csvfiles()
+    csv_files = find_csvfiles(settings["out_folder"])
     
     for key in  csv_files:
+        key = key.split("/")[-1]
         wb = xl.load_workbook(workbooks[key])
         print(f"Working on {key}\n")
         for file in csv_files[key]:
             plt_data = list()
-            lines = read_csv_file(f"./{key}/{file}") 
+            lines = read_csv_file(f"{settings['out_folder']}/{key}/{file}") 
             tmp = file.split("_")
             try:
                 station = tmp[0]
@@ -103,7 +105,8 @@ def data_to_excel(settings):
                 continue
             table_ref.ref = f"A{start-1}:K{row-1}"
             
-        wb.save(f"{settings['out_folder']}{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
+        print(f"{settings['out_folder']}/{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
+        wb.save(f"{settings['out_folder']}/{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
         
 # if __name__ == "__main__":
 #     data_to_excel()
