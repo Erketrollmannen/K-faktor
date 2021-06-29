@@ -68,7 +68,7 @@ class Gui:
         else:
             tmp = filedialog.askdirectory().replace("\\", "/")
             if tmp != "":
-                global_vars.settings["data_folder"] =
+                global_vars.settings["data_folder"] = tmp
                 self.folder.set(f"Data folder: {global_vars.settings['data_folder']}")
 
     def prompt_out_folder(self):
