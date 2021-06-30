@@ -90,22 +90,27 @@ class Gui:
         self.running = True
          
     def yeet(self):
-        self.progress["value"] = 25
-        self.progress_str.set("Renaming and moving files...")
-        self.main.update_idletasks()
-        filehandler.rename_and_move_files(global_vars.settings)
-        self.progress["value"] = 50
-        self.progress_str.set("Converting PDF files to CSV files...")
-        self.main.update_idletasks()
-        filehandler.convert_pdffiles_to_csv(global_vars.settings)
-        self.progress["value"] = 99
-        self.progress_str.set("Moving data to excel...")
-        self.main.update_idletasks()
-        excel_writer.data_to_excel(global_vars.settings)
-        self.progress["value"] = 100
-        self.progress_str.set("Done")
-        self.main.update_idletasks()
-        self.running = False
+        try:
+            self.progress["value"] = 25
+            self.progress_str.set("Renaming and moving files...")
+            self.main.update_idletasks()
+            filehandler.rename_and_move_files(global_vars.settings)
+            self.progress["value"] = 50
+            self.progress_str.set("Converting PDF files to CSV files...")
+            self.main.update_idletasks()
+            filehandler.convert_pdffiles_to_csv(global_vars.settings)
+            self.progress["value"] = 99
+            self.progress_str.set("Moving data to excel...")
+            self.main.update_idletasks()
+            excel_writer.data_to_excel(global_vars.settings)
+            self.progress["value"] = 100
+            self.progress_str.set("Done")
+            self.main.update_idletasks()
+            self.running = False
+        except Exception as e:
+            messagebox.showerror("Exception", e)
+            self.progress_str.set("Error")
+            self.progress["value"] = 0
 
 def parse_config():
     global_vars.settings = dict()

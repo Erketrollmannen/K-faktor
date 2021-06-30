@@ -102,7 +102,7 @@ def rename_and_move_files(settings):
 def convert_pdffiles_to_csv(settings):
     print("Converting pdf files to csv...")
     for f in folders: 
-        tabula.convert_into_by_batch(f"{settings['out_folder']}/{f}", output_format="csv", pages="all", java_options=["-Djava.awt.headless=true"])
+        tabula.convert_into_by_batch(f"{settings['out_folder']}/{f}", output_format="csv", pages="all") # java_options=["java.awt.headless=true"])
     print("pdf files converted to csv")
 
 
