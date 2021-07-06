@@ -18,7 +18,6 @@ except ModuleNotFoundError:
 
 class Gui:
     def __init__(self):
-        
         self.main = tk.Tk()
         self.running = False
         self.main.title("K-faktor script")
@@ -28,6 +27,7 @@ class Gui:
         self.out_folder.set(f"Output directory:   {global_vars.settings['out_folder']}")
         self.folder.set(f"Current folder:   {global_vars.settings['data_folder']}")
         self.progress_str = tk.StringVar()
+        self.use_default = tk.BooleanVar()
         self.top = tk.Frame(self.main)
         self.bottom = tk.Frame(self.main)
         self.top.pack(side=tk.TOP)
@@ -46,6 +46,8 @@ class Gui:
         self.out_folder_button = tk.Button(self.main, text="Choose outfolder", command=self.prompt_out_folder)
         self.disp_out_folder = tk.Label(self.main, textvariable=self.out_folder, font=("Helvetica", 13))
         self.disp_folder_var = tk.Label(self.main, textvariable=self.folder, font=("Helvetica", 13))
+        self.use_default_button = tk.Checkbutton(self.bottom, text="Use default folders", variable=self.use_default, onvalue=True, offvalue=False)
+        self.clear_button = tk.Button(self.main, text="Clear settings", command=self.clear_settings)
         self.progress = ttk.Progressbar(self.main, orient=tk.HORIZONTAL, length=200, mode="determinate")
         self.progress["value"] = 0
         self.progress_label = tk.Label(self.main, textvariable=self.progress_str)
@@ -61,6 +63,8 @@ class Gui:
         self.startbutton.pack(in_=self.bottom) #, pady=(10,10))
         self.progress_label.pack(in_=self.bottom)#, pady=(10,10))
         self.progress.pack(in_=self.bottom, pady=(10,10))
+        self.use_default_button.pack(in_=self.bottom, side=tk.RIGHT, pady=(0,5))
+        self.clear_button.pack(in_=self.bottom, side=tk.LEFT, pady=(0,5))
         
     def prompt_data_folder(self):
         if self.running:
@@ -79,6 +83,12 @@ class Gui:
             self.out_folder.set(f"Data folder: {global_vars.settings['out_folder']}")
     def save_folder(self):
         save_config()
+    
+    def clear_settings(self):
+        global_vars.settings["data_folder"] = f"{os.getcwd()}/data".replace('\\', '/')
+        global_vars.settings["out_folder"] = os.getcwd().replace('\\', '/')
+        self.out_folder.set(f"Output directory:   {global_vars.settings['out_folder']}")
+        self.folder.set(f"Current folder:   {global_vars.settings['data_folder']}")
        
     def start_thread(self):
         if self.running:
@@ -90,6 +100,9 @@ class Gui:
         self.running = True
          
     def yeet(self):
+        print(self.use_default.get())
+        if self.use_default.get():
+            self.clear_settings()
         try:
             self.progress["value"] = 25
             self.progress_str.set("Renaming and moving files...")
@@ -108,9 +121,10 @@ class Gui:
             self.main.update_idletasks()
             self.running = False
         except Exception as e:
-            messagebox.showerror("Exception", e)
             self.progress_str.set("Error")
             self.progress["value"] = 0
+            self.running = False
+            messagebox.showerror("Exception", e)
 
 def parse_config():
     global_vars.settings = dict()
