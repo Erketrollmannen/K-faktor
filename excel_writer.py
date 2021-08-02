@@ -6,7 +6,7 @@ try:
     from openpyxl.worksheet.table import Table, TableStyleInfo
 except ModuleNotFoundError:
     print("pip install --user openpyxl")
-    os._exit()
+    os._exit(0)
 
 
 def find_csvfiles(out_folder):
