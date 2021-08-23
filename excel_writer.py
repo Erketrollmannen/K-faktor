@@ -3,7 +3,9 @@ from global_vars import folders
 from datetime import date
 try: 
     import openpyxl as xl
-    from openpyxl.worksheet.table import Table, TableStyleInfo
+    # from openpyxl.worksheet.table import Table, TableStyleInfo
+    from openpyxl.chart import Reference, LineChart
+
 except ModuleNotFoundError:
     print("pip install --user openpyxl")
     os._exit()
@@ -99,11 +101,18 @@ def data_to_excel(settings):
                 row += 1
 
             print("Updating Table")
-            try:
-                table_ref = list(sheet.tables.values())[0]
-            except IndexError:
-                continue
-            table_ref.ref = f"A{start-1}:K{row-1}"
+            chart = LineChart()
+            dates = Reference(sheet, min_col=1, max_col=1, min_row=start-1, max_row=row-1)
+            data = Reference(sheet, min_col=7, max_col=10, min_row=start-1, max_row=row-1)
+            chart.add_data(data, titles_from_data=True)
+            chart.set_categories(dates)
+            chart.y_axis.scaling.min = 2298
+            chart.y_axis.scaling.max = 2312
+            chart.height = 18
+            chart.width = 40
+            sheet.add_chart(chart, "A1")
+
+            
             
         print(f"{settings['out_folder']}/{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
         wb.save(f"{settings['out_folder']}/{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
