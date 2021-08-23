@@ -155,7 +155,7 @@ def save_config():
         json.dump(global_vars.settings, f, indent=4)
 
 if __name__ == "__main__":
-    print(sys.path[0])
+    print(os.environ)
     os.chdir(sys.path[0])
     parse_config() 
     if "PROMPT" in os.environ:

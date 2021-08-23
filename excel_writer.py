@@ -49,6 +49,18 @@ def get_sheet_by_name(wb, line, station, oil_type):
                 return i
     raise Exception(f"Fant ikkje passande worksheet, løp: {line}, på {station}, oljetype {oil_type}")
 
+def make_chart():
+    chart = LineChart()
+    dates = Reference(sheet, min_col=1, max_col=1, min_row=start-1, max_row=row-1)
+    data = Reference(sheet, min_col=7, max_col=10, min_row=start-1, max_row=row-1)
+    chart.add_data(data, titles_from_data=True)
+    chart.set_categories(dates)
+    chart.y_axis.scaling.min = 2298
+    chart.y_axis.scaling.max = 2312
+    chart.height = 18
+    chart.width = 40
+    return chart
+
 
 def data_to_excel(settings):
     workbooks = {"MSA_1": "MSA JS_template.xlsx", "MSB_1": "MSB JS_template.xlsx", "MSA_14": "MSA TrBlend_template.xlsx", "MSB_14": "MSB TrBlend_template.xlsx"}
@@ -101,18 +113,8 @@ def data_to_excel(settings):
                 row += 1
 
             print("Updating Table")
-            chart = LineChart()
-            dates = Reference(sheet, min_col=1, max_col=1, min_row=start-1, max_row=row-1)
-            data = Reference(sheet, min_col=7, max_col=10, min_row=start-1, max_row=row-1)
-            chart.add_data(data, titles_from_data=True)
-            chart.set_categories(dates)
-            chart.y_axis.scaling.min = 2298
-            chart.y_axis.scaling.max = 2312
-            chart.height = 18
-            chart.width = 40
+            chart = make_chart()
             sheet.add_chart(chart, "A1")
-
-            
             
         print(f"{settings['out_folder']}/{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
         wb.save(f"{settings['out_folder']}/{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
