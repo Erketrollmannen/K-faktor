@@ -13,13 +13,13 @@ try:
     from pdfminer.pdfpage import PDFPage
 except ModuleNotFoundError:
     print("pip install --user pdfminer")
-    os._exit()
+    os._exit(0)
     
 try:
     import tabula
 except ModuleNotFoundError:
     print("pip install --user tabula-py")
-    os._exit()
+    os._exit(0)
 
 # Globals
 regex_station = re.compile(r"(MSA|MSB)")
