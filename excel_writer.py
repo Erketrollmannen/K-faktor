@@ -49,7 +49,7 @@ def get_sheet_by_name(wb, line, station, oil_type):
                 return i
     raise Exception(f"Fant ikkje passande worksheet, løp: {line}, på {station}, oljetype {oil_type}")
 
-def make_chart():
+def make_chart(sheet, start, row):
     chart = LineChart()
     dates = Reference(sheet, min_col=1, max_col=1, min_row=start-1, max_row=row-1)
     data = Reference(sheet, min_col=7, max_col=10, min_row=start-1, max_row=row-1)
@@ -113,7 +113,7 @@ def data_to_excel(settings):
                 row += 1
 
             print("Updating Table")
-            chart = make_chart()
+            chart = make_chart(sheet, start, row)
             sheet.add_chart(chart, "A1")
             
         print(f"{settings['out_folder']}/{workbooks[key].split('_')[0]}_{date.today()}.xlsx")
